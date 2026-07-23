@@ -16,19 +16,14 @@ npm run dev
 Откройте `http://127.0.0.1:3000`. Личный кабинет находится по адресу
 `http://127.0.0.1:3000/account`.
 
-Для регистрации, входа и смены скина одновременно запустите API:
+Кабинет и API TiramisuSkins входят в этот же Next.js-проект. Для их работы
+скопируйте `.env.example` в `.env.local` и укажите тестовую Neon-базу,
+Vercel Blob token и `PUBLIC_BASE_URL=http://127.0.0.1:3000`.
 
-```bash
-cd ..\TiramisuSkins\backend
-npm install
-copy .env.example .env
-npm run dev
-```
-
-Для локальной разработки в `backend/.env` установите
-`SESSION_COOKIE_SECURE=false`. Публичная регистрация по умолчанию отключена:
-включайте `REGISTRATION_ENABLED=true` только после выбора способа подтверждения
-владения Minecraft-ником.
+Публичная регистрация управляется переменной `REGISTRATION_ENABLED`. На
+offline-mode сервере ник нельзя криптографически подтвердить, поэтому перед
+открытием регистрации продумайте подтверждение владения ником или выдавайте
+аккаунты администрацией.
 
 ## Проверка
 
@@ -47,8 +42,8 @@ npx next build
 - Тексты и секции находятся в `app/page.tsx`.
 - Оформление находится в `app/globals.css`.
 - Изображения находятся в `public/images/`.
-- Адрес TiramisuSkins API находится в `.env.local`:
-  `NEXT_PUBLIC_SKINS_API_URL=http://127.0.0.1:3001`.
+- API кабинета использует тот же домен, что и сайт; публичной переменной с
+  отдельным backend URL больше нет.
 
 ## GitHub
 
@@ -70,13 +65,26 @@ git push -u origin main
 2. Импортируйте репозиторий GitHub.
 3. Оставьте Framework Preset: **Next.js**.
 4. Build Command уже задан в `vercel.json`.
-5. Добавьте переменную
-   `NEXT_PUBLIC_SKINS_API_URL=https://skins.tiramisucraft.ru`.
-6. Нажмите **Deploy**.
+5. В разделе **Storage** подключите Neon Postgres к проекту. Интеграция должна
+   добавить `DATABASE_URL`.
+6. Там же создайте Vercel Blob store и подключите его к проекту. Появится
+   `BLOB_READ_WRITE_TOKEN`.
+7. В **Settings → Environment Variables** добавьте:
+   `PUBLIC_BASE_URL=https://ваш-домен`, `REGISTRATION_ENABLED=true` и, если
+   нужен административный API, случайный `ADMIN_API_KEY`.
+8. Выполните новый production deploy.
 
-Сам сайт не хранит секреты. Backend TiramisuSkins необходимо размещать
-отдельно на VPS/Docker с постоянным volume: файловое хранилище PNG нельзя
-размещать в эфемерной файловой системе Vercel.
+Схема Neon создаётся API автоматически при первом обращении. Аккаунты, сессии,
+лимиты и метаданные скинов хранятся в Postgres, а PNG — в Vercel Blob.
+Файловая система Vercel Functions не используется.
+
+Публичный контракт для мода:
+
+- `GET /api/skins/{username}` — метаданные и SHA-256;
+- `GET /skins/{username}.png` — PNG через стабильный домен сайта.
+
+В `tiramisu_skins-server.toml` и `tiramisu_skins-client.toml` укажите этот
+production-домен в `apiUrl`, `directSkinUrl` и `allowedHosts`.
 
 ## Изображения
 

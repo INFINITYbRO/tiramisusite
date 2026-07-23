@@ -5,24 +5,15 @@ import test from "node:test";
 const root = new URL("../", import.meta.url);
 
 async function render(pathname = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  return worker.fetch(
-    new Request(`https://tiramisucraft.ru${pathname}`, {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
+  const output =
+    pathname === "/"
+      ? new URL("../.next/server/app/index.html", import.meta.url)
+      : new URL(`../.next/server/app${pathname}.html`, import.meta.url);
+  const html = await readFile(output, "utf8");
+  return new Response(html, {
+    headers: { "content-type": "text/html; charset=utf-8" },
+    status: 200,
+  });
 }
 
 test("server-renders the finished TiramisuCraft landing page", async () => {
@@ -85,7 +76,9 @@ test("account client uses the authenticated TiramisuSkins API contract", async (
   assert.match(portal, /\/api\/auth\/logout/);
   assert.match(portal, /\/api\/account\/skin/);
   assert.match(portal, /credentials:\s*"include"/);
-  assert.match(environment, /NEXT_PUBLIC_SKINS_API_URL=/);
+  assert.match(environment, /DATABASE_URL=/);
+  assert.match(environment, /BLOB_READ_WRITE_TOKEN=/);
+  assert.doesNotMatch(environment, /NEXT_PUBLIC_SKINS_API_URL=/);
 });
 
 test("does not retain the disposable starter preview", async () => {

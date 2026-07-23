@@ -27,17 +27,24 @@ const translatedErrors: Record<string, string> = {
     "Регистрация временно закрыта. Получите аккаунт у администрации сервера.",
   "An account with this username already exists":
     "Аккаунт с таким Minecraft-ником уже существует.",
+  "Username is already registered or has an administrator-managed skin":
+    "Этот Minecraft-ник уже занят или его скин управляется администрацией.",
   "Invalid username or password": "Неверный ник или пароль.",
   "Invalid username or password format": "Проверьте формат ника и пароля.",
   "Authentication required": "Сессия закончилась. Войдите снова.",
   "Invalid CSRF token": "Сессия безопасности устарела. Повторите действие.",
   "Request origin is not allowed": "Этот адрес сайта не разрешён сервером скинов.",
   "A trusted Origin header is required": "Сервер не смог проверить адрес сайта.",
+  "A same-origin request is required": "Сервер не смог подтвердить адрес сайта.",
+  "Database is temporarily unavailable":
+    "База аккаунтов временно недоступна. Попробуйте ещё раз.",
+  "Skin storage is temporarily unavailable":
+    "Хранилище скинов временно недоступно. Попробуйте ещё раз.",
 };
 
-const apiBase = (
-  process.env.NEXT_PUBLIC_SKINS_API_URL ?? "http://127.0.0.1:3001"
-).replace(/\/+$/, "");
+// The account API ships with the site as Vercel Functions, so browser requests
+// stay on the current deployment/custom domain and share its secure cookies.
+const apiBase = "";
 
 function errorText(value: unknown): string {
   if (value && typeof value === "object") {
