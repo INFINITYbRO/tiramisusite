@@ -56,6 +56,7 @@ test("keeps deployment metadata and all generated artwork", async () => {
   assert.match(vercel, /"framework": "nextjs"/);
 
   await Promise.all([
+    access(new URL("../app/icon.svg", import.meta.url)),
     access(new URL("../public/og.jpg", import.meta.url)),
     access(new URL("../public/images/hero-airship.webp", import.meta.url)),
     access(new URL("../public/images/aeronautics-workshop.webp", import.meta.url)),
