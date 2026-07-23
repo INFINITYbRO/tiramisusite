@@ -24,7 +24,8 @@ test("server-renders the finished TiramisuCraft landing page", async () => {
   const html = await response.text();
   assert.match(html, /TiramisuCraft/);
   assert.match(html, /Подними свой/);
-  assert.match(html, /play\.tiramisucraft\.ru/);
+  assert.match(html, /185\.9\.145\.104:30621/);
+  assert.match(html, /https:\/\/t\.me\/tiramusycraft/);
   assert.match(html, /Create Aeronautics/i);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });

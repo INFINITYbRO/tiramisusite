@@ -76,6 +76,13 @@ export default function Home() {
           <a href="#world">Мир</a>
           <a href="#journey">Путь игрока</a>
           <a href="#join">Подключиться</a>
+          <a
+            href="https://t.me/tiramusycraft"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Telegram
+          </a>
           <a href="/account">Кабинет</a>
         </div>
 
@@ -283,17 +290,28 @@ export default function Home() {
 
         <div className="join-panel">
           <span className="join-label">АДРЕС СЕРВЕРА</span>
-          <CopyAddress address="play.tiramisucraft.ru" />
+          <CopyAddress address="185.9.145.104:30621" />
           <div className="join-meta">
             <span>Minecraft 1.21.1</span>
             <span>NeoForge</span>
             <span>Лицензия не обязательна</span>
           </div>
-          <a className="button button--primary button--full" href="#faq">
-            Как начать играть <span aria-hidden="true">→</span>
-          </a>
+          <div className="join-actions">
+            <a className="button button--primary button--full" href="#faq">
+              Как начать играть <span aria-hidden="true">→</span>
+            </a>
+            <a
+              className="button button--telegram button--full"
+              href="https://t.me/tiramusycraft"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Telegram-канал <span aria-hidden="true">↗</span>
+            </a>
+          </div>
           <small>
-            Адрес можно будет заменить на реальный перед публикацией.
+            Новости, обновления и ссылка на актуальную сборку публикуются в
+            Telegram-канале.
           </small>
         </div>
       </section>

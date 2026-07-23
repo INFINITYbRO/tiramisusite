@@ -807,6 +807,22 @@ img {
   width: 100%;
 }
 
+.join-actions {
+  display: grid;
+  gap: 10px;
+}
+
+.button--telegram {
+  background: rgba(241, 234, 220, 0.04);
+  border: 1px solid rgba(241, 234, 220, 0.2);
+  color: var(--paper);
+}
+
+.button--telegram:hover {
+  background: rgba(241, 234, 220, 0.1);
+  border-color: rgba(241, 234, 220, 0.42);
+}
+
 .join-panel small {
   color: rgba(241, 234, 220, 0.38);
   display: block;
