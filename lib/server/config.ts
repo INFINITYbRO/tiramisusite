@@ -60,8 +60,8 @@ export function getDatabaseUrl(): string {
   return value;
 }
 
-export function getBlobToken(): string {
-  return required("BLOB_READ_WRITE_TOKEN");
+export function getBlobToken(): string | undefined {
+  return process.env.BLOB_READ_WRITE_TOKEN?.trim() || undefined;
 }
 
 export function getPublicBaseUrl(): string {

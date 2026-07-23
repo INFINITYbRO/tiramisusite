@@ -8,6 +8,7 @@ import {
 } from "../lib/server/auth";
 import { isTrustedBlobUrl } from "../lib/server/blob";
 import {
+  getBlobToken,
   getPublicBaseUrl,
   getRuntimeConfig,
   type RuntimeConfig,
@@ -136,6 +137,11 @@ describe("serverless request security", () => {
     assert.throws(() => getPublicBaseUrl());
     process.env.PUBLIC_BASE_URL = "http://127.0.0.1:3000";
     assert.equal(getPublicBaseUrl(), "http://127.0.0.1:3000");
+
+    delete process.env.BLOB_READ_WRITE_TOKEN;
+    assert.equal(getBlobToken(), undefined);
+    process.env.BLOB_READ_WRITE_TOKEN = "legacy-local-token";
+    assert.equal(getBlobToken(), "legacy-local-token");
   });
 });
 

@@ -18,7 +18,8 @@ npm run dev
 
 Кабинет и API TiramisuSkins входят в этот же Next.js-проект. Для их работы
 скопируйте `.env.example` в `.env.local` и укажите тестовую Neon-базу,
-Vercel Blob token и `PUBLIC_BASE_URL=http://127.0.0.1:3000`.
+локальный Vercel Blob token и `PUBLIC_BASE_URL=http://127.0.0.1:3000`.
+На самом Vercel Blob авторизуется автоматически через OIDC.
 
 Публичная регистрация управляется переменной `REGISTRATION_ENABLED`. На
 offline-mode сервере ник нельзя криптографически подтвердить, поэтому перед
@@ -67,8 +68,9 @@ git push -u origin main
 4. Build Command уже задан в `vercel.json`.
 5. В разделе **Storage** подключите Neon Postgres к проекту. Интеграция должна
    добавить `DATABASE_URL`.
-6. Там же создайте Vercel Blob store и подключите его к проекту. Появится
-   `BLOB_READ_WRITE_TOKEN`.
+6. Там же создайте публичный Vercel Blob store и подключите его к проекту.
+   Для нового OIDC-подключения появятся `BLOB_STORE_ID` и
+   `BLOB_WEBHOOK_PUBLIC_KEY`; `BLOB_READ_WRITE_TOKEN` не требуется.
 7. В **Settings → Environment Variables** добавьте:
    `PUBLIC_BASE_URL=https://ваш-домен`, `REGISTRATION_ENABLED=true` и, если
    нужен административный API, случайный `ADMIN_API_KEY`.
@@ -76,7 +78,8 @@ git push -u origin main
 
 Схема Neon создаётся API автоматически при первом обращении. Аккаунты, сессии,
 лимиты и метаданные скинов хранятся в Postgres, а PNG — в Vercel Blob.
-Файловая система Vercel Functions не используется.
+Файловая система Vercel Functions не используется. Для локального запуска
+вне Vercel всё ещё можно указать `BLOB_READ_WRITE_TOKEN`.
 
 Публичный контракт для мода:
 

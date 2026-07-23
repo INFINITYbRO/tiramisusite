@@ -26,7 +26,7 @@ export async function putSkinBlob(
   try {
     const result = await put(pathname, Buffer.from(bytes), {
       access: "public",
-      token,
+      ...(token ? { token } : {}),
       contentType: "image/png",
       addRandomSuffix: false,
       allowOverwrite: true,
