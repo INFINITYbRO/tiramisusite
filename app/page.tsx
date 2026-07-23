@@ -222,31 +222,18 @@ export default function Home() {
           <span>T</span>
         </div>
         <div className="manifesto-copy">
-          <span className="section-index">02 / ФИЛОСОФИЯ</span>
+          <span className="section-index">02 / МАГИЧЕСКИЙ ПУТЬ</span>
           <blockquote>
-            Не проходи чужой сюжет.
+            Открой тайны магии.
             <br />
-            <em>Построй собственный.</em>
+            <em>Iron&apos;s Spells &apos;n Spellbooks.</em>
           </blockquote>
           <p>
-            Никаких ежедневных заданий ради галочки. Мир реагирует на торговлю,
-            войны, открытия и амбиции сообществ. Твоя фабрика, город или корабль
-            могут стать частью общей хроники.
+            История TiramisuCraft строится вокруг Iron&apos;s Spells &apos;n
+            Spellbooks. Исследуй древние руины и подземелья, сражайся с опасными
+            магами, находи свитки и редкие артефакты. Осваивай школы магии и шаг
+            за шагом приближайся к тайнам забытого колдовства.
           </p>
-        </div>
-        <div className="manifesto-notes">
-          <div>
-            <strong>01</strong>
-            <span>Честная прогрессия без pay-to-win</span>
-          </div>
-          <div>
-            <strong>02</strong>
-            <span>Сезонный сюжет меняется от действий игроков</span>
-          </div>
-          <div>
-            <strong>03</strong>
-            <span>Командная игра полезна, но не обязательна</span>
-          </div>
         </div>
       </section>
 
