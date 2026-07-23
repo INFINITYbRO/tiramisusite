@@ -145,9 +145,9 @@ export async function registerUser(
 ): Promise<UserWithPassword | undefined> {
   const [row] = await sql<UserRow>(
     `INSERT INTO users(id, username, username_key, password_hash, created_at)
-     SELECT $1, $2, $3, $4, $5
+     SELECT $1::uuid, $2::varchar(16), $3::varchar(16), $4::text, $5::bigint
      WHERE NOT EXISTS (
-       SELECT 1 FROM skins WHERE username_key = $3
+       SELECT 1 FROM skins WHERE username_key = $3::varchar(16)
      )
      ON CONFLICT (username_key) DO NOTHING
      RETURNING id, username, password_hash, created_at`,
