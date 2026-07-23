@@ -787,11 +787,68 @@ img {
   letter-spacing: 0.14em;
 }
 
+.server-status {
+  align-items: center;
+  background: rgba(241, 234, 220, 0.035);
+  border: 1px solid rgba(241, 234, 220, 0.11);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  min-height: 48px;
+  padding: 12px 14px;
+}
+
+.server-status-state {
+  align-items: center;
+  color: rgba(241, 234, 220, 0.72);
+  display: flex;
+  font-family: var(--display);
+  font-size: 9px;
+  font-weight: 800;
+  gap: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.server-status-state i {
+  background: #879098;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px rgba(135, 144, 152, 0.09);
+  height: 7px;
+  width: 7px;
+}
+
+.server-status strong {
+  color: rgba(241, 234, 220, 0.72);
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.server-status--online .server-status-state {
+  color: #79e3a3;
+}
+
+.server-status--online .server-status-state i {
+  background: #67d993;
+  box-shadow: 0 0 0 5px rgba(103, 217, 147, 0.11), 0 0 18px rgba(103, 217, 147, 0.55);
+}
+
+.server-status--offline .server-status-state {
+  color: #f08a78;
+}
+
+.server-status--offline .server-status-state i {
+  background: #e47664;
+  box-shadow: 0 0 0 5px rgba(228, 118, 100, 0.11);
+}
+
 .join-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 24px 0 34px;
+  margin: 18px 0 30px;
 }
 
 .join-meta span {
@@ -812,12 +869,21 @@ img {
   gap: 10px;
 }
 
+.join-secondary-actions {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.button--outline,
 .button--telegram {
   background: rgba(241, 234, 220, 0.04);
   border: 1px solid rgba(241, 234, 220, 0.2);
   color: var(--paper);
+  width: 100%;
 }
 
+.button--outline:hover,
 .button--telegram:hover {
   background: rgba(241, 234, 220, 0.1);
   border-color: rgba(241, 234, 220, 0.42);
@@ -1620,6 +1686,16 @@ footer > span {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .server-status {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .join-secondary-actions {
+    grid-template-columns: 1fr;
   }
 
   .faq {

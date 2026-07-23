@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import {
+  MODPACK_DOWNLOAD_URL,
+  SERVER_ADDRESS,
+  TELEGRAM_URL,
+} from "../lib/site-config";
 import { CopyAddress } from "./CopyAddress";
+import { ServerStatus } from "./ServerStatus";
 
 export const metadata: Metadata = {
   title: "TiramisuCraft — механика, небо и магия",
@@ -77,7 +83,7 @@ export default function Home() {
           <a href="#journey">Путь игрока</a>
           <a href="#join">Подключиться</a>
           <a
-            href="https://t.me/tiramusycraft"
+            href={TELEGRAM_URL}
             target="_blank"
             rel="noreferrer"
           >
@@ -290,24 +296,35 @@ export default function Home() {
 
         <div className="join-panel">
           <span className="join-label">АДРЕС СЕРВЕРА</span>
-          <CopyAddress address="185.9.145.104:30621" />
+          <CopyAddress address={SERVER_ADDRESS} />
+          <ServerStatus />
           <div className="join-meta">
             <span>Minecraft 1.21.1</span>
             <span>NeoForge</span>
             <span>Лицензия не обязательна</span>
           </div>
           <div className="join-actions">
-            <a className="button button--primary button--full" href="#faq">
-              Как начать играть <span aria-hidden="true">→</span>
-            </a>
             <a
-              className="button button--telegram button--full"
-              href="https://t.me/tiramusycraft"
+              className="button button--primary button--full"
+              href={MODPACK_DOWNLOAD_URL}
               target="_blank"
               rel="noreferrer"
             >
-              Telegram-канал <span aria-hidden="true">↗</span>
+              Скачать сборку <span aria-hidden="true">↓</span>
             </a>
+            <div className="join-secondary-actions">
+              <a className="button button--outline" href="#faq">
+                Как установить <span aria-hidden="true">→</span>
+              </a>
+              <a
+                className="button button--telegram"
+                href={TELEGRAM_URL}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Telegram <span aria-hidden="true">↗</span>
+              </a>
+            </div>
           </div>
           <small>
             Новости, обновления и ссылка на актуальную сборку публикуются в

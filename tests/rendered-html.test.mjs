@@ -26,6 +26,8 @@ test("server-renders the finished TiramisuCraft landing page", async () => {
   assert.match(html, /Подними свой/);
   assert.match(html, /185\.9\.145\.104:30621/);
   assert.match(html, /https:\/\/t\.me\/tiramusycraft/);
+  assert.match(html, /https:\/\/clck\.su\/kfyrX/);
+  assert.match(html, /Скачать сборку/);
   assert.match(html, /Create Aeronautics/i);
   assert.doesNotMatch(html, /codex-preview|SkeletonPreview|Your site is taking shape/);
 });

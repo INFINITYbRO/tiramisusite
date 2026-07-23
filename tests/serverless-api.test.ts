@@ -29,14 +29,17 @@ import {
   normalizeUsername,
 } from "../lib/server/validation";
 import { etagMatches } from "../app/skins/[filename]/route";
+import { GET as getServerStatus } from "../app/api/server-status/route";
 
 const originalEnvironment = { ...process.env };
+const originalFetch = globalThis.fetch;
 
 afterEach(() => {
   for (const key of Object.keys(process.env)) {
     if (!(key in originalEnvironment)) delete process.env[key];
   }
   Object.assign(process.env, originalEnvironment);
+  globalThis.fetch = originalFetch;
 });
 
 function config(): RuntimeConfig {
@@ -184,5 +187,42 @@ describe("PNG and cache helpers", () => {
       ),
       false,
     );
+  });
+});
+
+describe("Minecraft server status", () => {
+  it("returns the online state and player count from the status provider", async () => {
+    let requestedUrl = "";
+    globalThis.fetch = (async (input) => {
+      requestedUrl = String(input);
+      return Response.json({
+        online: true,
+        players: { online: 2, max: 20 },
+      });
+    }) as typeof fetch;
+
+    const response = await getServerStatus();
+    const data = await response.json();
+
+    assert.match(
+      requestedUrl,
+      /api\.mcstatus\.io\/v2\/status\/java\/185\.9\.145\.104%3A30621/,
+    );
+    assert.equal(data.status, "online");
+    assert.equal(data.playersOnline, 2);
+    assert.equal(data.playersMax, 20);
+  });
+
+  it("does not falsely report the server offline when the provider fails", async () => {
+    globalThis.fetch = (async () => {
+      throw new Error("Provider unavailable");
+    }) as typeof fetch;
+
+    const response = await getServerStatus();
+    const data = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(data.status, "unknown");
+    assert.equal(data.playersOnline, null);
   });
 });
