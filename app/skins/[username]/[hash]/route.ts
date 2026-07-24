@@ -12,21 +12,7 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 interface Context {
-  params: Promise<{ filename: string }>;
-}
-
-export function etagMatches(header: string | null, hash: string): boolean {
-  if (!header) return false;
-  return header
-    .split(",")
-    .map((value) => value.trim().replace(/^W\//, ""))
-    .some((value) => value === "*" || value === `"${hash}"`);
-}
-
-export function skinCacheControl(versioned: boolean): string {
-  return versioned
-    ? "public, max-age=31536000, immutable"
-    : "no-store";
+  params: Promise<{ username: string; hash: string }>;
 }
 
 export async function GET(request: NextRequest, context: Context) {
@@ -38,21 +24,17 @@ export async function GET(request: NextRequest, context: Context) {
       config.apiRateLimitMax,
       config.apiRateLimitWindowSeconds,
     );
-    const { filename } = await context.params;
-    if (!filename.toLowerCase().endsWith(".png")) {
+    const { username, hash: hashFile } = await context.params;
+    if (!isValidUsername(username) || !hashFile.toLowerCase().endsWith(".png")) {
       throw new HttpError(404, "Skin not found");
     }
-    const username = filename.slice(0, -4);
-    if (!isValidUsername(username)) {
-      throw new HttpError(
-        400,
-        "Username must contain 3-16 ASCII letters, digits, or underscores",
-      );
+    const requestedHash = hashFile.slice(0, -4).toLowerCase();
+    if (!/^[a-f0-9]{64}$/.test(requestedHash)) {
+      throw new HttpError(404, "Skin not found");
     }
     const record = await getSkin(username);
     if (!record) throw new HttpError(404, "Skin not found");
-    const requestedVersion = request.nextUrl.searchParams.get("v");
-    if (requestedVersion && requestedVersion !== record.hash) {
+    if (record.hash !== requestedHash) {
       throw new HttpError(
         409,
         "Skin version changed; refresh metadata",
@@ -60,12 +42,12 @@ export async function GET(request: NextRequest, context: Context) {
       );
     }
     const headers = new Headers({
-      "Cache-Control": skinCacheControl(requestedVersion === record.hash),
+      "Cache-Control": "public, max-age=31536000, immutable",
       "Content-Type": "image/png",
       "Cross-Origin-Resource-Policy": "cross-origin",
       ETag: `"${record.hash}"`,
     });
-    if (etagMatches(request.headers.get("if-none-match"), record.hash)) {
+    if (request.headers.get("if-none-match")?.replace(/^W\//, "") === `"${record.hash}"`) {
       return new Response(null, { status: 304, headers });
     }
     const bytes = await fetchSkinBlob(record.blobUrl);
