@@ -39,10 +39,22 @@ export interface SkinApiResponse {
   hash: string;
 }
 
+export function buildVersionedSkinUrl(
+  publicBaseUrl: string,
+  username: string,
+  hash: string,
+): string {
+  return `${publicBaseUrl}/skins/${encodeURIComponent(username)}/${hash}.png`;
+}
+
 export function skinApiResponse(record: SkinRecord): SkinApiResponse {
   return {
     username: record.username,
-    skinUrl: `${getPublicBaseUrl()}/skins/${encodeURIComponent(record.username)}.png`,
+    skinUrl: buildVersionedSkinUrl(
+      getPublicBaseUrl(),
+      record.username,
+      record.hash,
+    ),
     model: record.model,
     updatedAt: record.updatedAt,
     hash: record.hash,
