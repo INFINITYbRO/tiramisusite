@@ -1069,11 +1069,10 @@ img {
 .launcher-guide-copy li {
   color: rgba(241, 234, 220, 0.66);
   counter-increment: install-step;
-  display: grid;
   font-size: 11px;
-  gap: 12px;
-  grid-template-columns: 25px 1fr;
   line-height: 1.65;
+  padding-left: 37px;
+  position: relative;
 }
 
 .launcher-guide-copy li::before {
@@ -1082,7 +1081,10 @@ img {
   font-family: var(--display);
   font-size: 9px;
   font-weight: 900;
-  padding-top: 2px;
+  left: 0;
+  line-height: 1.65;
+  position: absolute;
+  top: 2px;
 }
 
 .launcher-guide-copy li strong {
