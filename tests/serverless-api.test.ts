@@ -23,12 +23,16 @@ import {
 import { ServiceUnavailableError } from "../lib/server/errors";
 import { requireSameOrigin } from "../lib/server/http";
 import { normalizeMinecraftPng } from "../lib/server/png";
+import { buildVersionedSkinUrl } from "../lib/server/skins";
 import {
   isSkinModel,
   isValidUsername,
   normalizeUsername,
 } from "../lib/server/validation";
-import { etagMatches } from "../app/skins/[filename]/route";
+import {
+  etagMatches,
+  skinCacheControl,
+} from "../app/skins/[filename]/route";
 import { GET as getServerStatus } from "../app/api/server-status/route";
 
 const originalEnvironment = { ...process.env };
@@ -187,6 +191,19 @@ describe("PNG and cache helpers", () => {
       ),
       false,
     );
+  });
+
+  it("couples every cacheable PNG URL to its metadata hash", () => {
+    const hash = "a".repeat(64);
+    assert.equal(
+      buildVersionedSkinUrl("https://skins.example.com", "Player_1", hash),
+      `https://skins.example.com/skins/Player_1/${hash}.png`,
+    );
+    assert.equal(
+      skinCacheControl(true),
+      "public, max-age=31536000, immutable",
+    );
+    assert.equal(skinCacheControl(false), "no-store");
   });
 });
 
