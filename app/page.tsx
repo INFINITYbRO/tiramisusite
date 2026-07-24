@@ -300,7 +300,7 @@ export default function Home() {
               Скачать сборку <span aria-hidden="true">↓</span>
             </a>
             <div className="join-secondary-actions">
-              <a className="button button--outline" href="#faq">
+              <a className="button button--outline" href="#install">
                 Как установить <span aria-hidden="true">→</span>
               </a>
               <a
@@ -320,17 +320,202 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="section install-guide" id="install">
+        <header className="install-heading">
+          <div>
+            <span className="section-index">04 / УСТАНОВКА</span>
+            <h2>
+              От архива
+              <br />
+              <em>до первого входа</em>
+            </h2>
+          </div>
+          <p>
+            Сборка рассчитана на Minecraft 1.21.1 и NeoForge 21.1.235.
+            Сначала скачай архив с Google Диска, затем выбери свой лаунчер и
+            повтори три шага.
+          </p>
+        </header>
+
+        <div className="install-download">
+          <span className="install-download-index">01</span>
+          <div>
+            <span>Один шаг для всех лаунчеров</span>
+            <h3>Скачай и распакуй mods.zip</h3>
+            <p>
+              Открой Google Диск, нажми «Скачать» и распакуй архив в отдельную
+              папку. В лаунчер нужно переносить файлы модов из архива, а не сам
+              ZIP.
+            </p>
+          </div>
+          <a
+            className="button button--install-download"
+            href={MODPACK_DOWNLOAD_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Открыть Google Диск <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+
+        <div className="launcher-guide-grid">
+          <article className="launcher-guide-card">
+            <div className="launcher-guide-media">
+              <Image
+                src="/images/install/tlauncher-tiramisucraft.webp"
+                alt="Создание профиля TiramisuCraft с Minecraft 1.21.1 и NeoForge 21.1.235 в TLauncher"
+                width={1459}
+                height={1078}
+                sizes="(max-width: 700px) 100vw, (max-width: 980px) 50vw, 33vw"
+              />
+              <span>TLauncher</span>
+            </div>
+            <div className="launcher-guide-copy">
+              <div className="launcher-guide-title">
+                <span>Вариант 01</span>
+                <h3>TLauncher</h3>
+              </div>
+              <ol>
+                <li>
+                  Открой <strong>TL MODS → Создать</strong>. Назови профиль
+                  TiramisuCraft, выбери Minecraft 1.21.1, NeoForge и версию
+                  загрузчика 21.1.235.
+                </li>
+                <li>
+                  Запусти новый профиль один раз, дождись главного меню и
+                  закрой игру. Затем открой папку этого профиля через значок
+                  папки в лаунчере.
+                </li>
+                <li>
+                  Открой папку <code>mods</code> и скопируй туда все файлы
+                  <code>.jar</code> из распакованного архива. После этого
+                  запускай профиль TiramisuCraft.
+                </li>
+              </ol>
+              <a
+                className="launcher-guide-source"
+                href="https://tlauncher.ru/how-install-neoforge.html"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Основа: инструкция TLauncher по NeoForge ↗
+              </a>
+            </div>
+          </article>
+
+          <article className="launcher-guide-card">
+            <div className="launcher-guide-media">
+              <Image
+                src="/images/install/klauncher-tiramisucraft.webp"
+                alt="Профиль TiramisuCraft с Minecraft 1.21.1 и NeoForge 21.1.235 в KLauncher"
+                width={1538}
+                height={1022}
+                sizes="(max-width: 700px) 100vw, (max-width: 980px) 50vw, 33vw"
+              />
+              <span>KLauncher</span>
+            </div>
+            <div className="launcher-guide-copy">
+              <div className="launcher-guide-title">
+                <span>Вариант 02</span>
+                <h3>KLauncher</h3>
+              </div>
+              <ol>
+                <li>
+                  Нажми <strong>«Выбор версии игры»</strong> и создай профиль
+                  Minecraft 1.21.1 с загрузчиком NeoForge 21.1.235.
+                </li>
+                <li>
+                  Запусти профиль один раз и закрой Minecraft. На главном
+                  экране нажми <strong>«Папка версии»</strong>.
+                </li>
+                <li>
+                  Перейди в <code>mods</code>, перенеси туда все
+                  <code>.jar</code> из распакованного mods.zip и нажми
+                  «Играть».
+                </li>
+              </ol>
+              <a
+                className="launcher-guide-source"
+                href="https://klauncher.gg/ru"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Интерфейс и поддержка NeoForge: KLauncher ↗
+              </a>
+            </div>
+          </article>
+
+          <article className="launcher-guide-card">
+            <div className="launcher-guide-media">
+              <Image
+                src="/images/install/prism-tiramisucraft.webp"
+                alt="Вкладка модов профиля TiramisuCraft с Minecraft 1.21.1 и NeoForge 21.1.235 в Prism Launcher"
+                width={1461}
+                height={1077}
+                sizes="(max-width: 700px) 100vw, (max-width: 980px) 50vw, 33vw"
+              />
+              <span>Prism Launcher</span>
+            </div>
+            <div className="launcher-guide-copy">
+              <div className="launcher-guide-title">
+                <span>Вариант 03</span>
+                <h3>Prism Launcher</h3>
+              </div>
+              <ol>
+                <li>
+                  Нажми <strong>Add Instance</strong>, создай экземпляр
+                  Minecraft 1.21.1 и установи для него NeoForge 21.1.235.
+                </li>
+                <li>
+                  Открой <strong>Edit → Mods → Add file</strong>. Выдели все
+                  <code>.jar</code> из распакованного архива — их также можно
+                  перетащить прямо в окно Mods.
+                </li>
+                <li>
+                  В настройках Java выдели сборке 6–8 ГБ памяти, если это
+                  позволяет компьютер, и запусти экземпляр TiramisuCraft.
+                </li>
+              </ol>
+              <p className="launcher-guide-note">
+                Не импортируй mods.zip как готовый Prism‑пак: это архив модов,
+                его нужно сначала распаковать.
+              </p>
+              <a
+                className="launcher-guide-source"
+                href="https://prismlauncher.org/wiki/help-pages/loader-mods/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Основа: официальная инструкция Prism Launcher ↗
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div className="install-finish">
+          <span>Финальный шаг</span>
+          <p>
+            В Minecraft открой «Сетевая игра», добавь сервер
+            <strong>{SERVER_ADDRESS}</strong> и подключайся.
+          </p>
+          <a href="#join">Вернуться к адресу сервера ↑</a>
+        </div>
+      </section>
+
       <section className="section faq" id="faq">
         <div className="faq-heading">
-          <span className="section-index">04 / ПЕРЕД СТАРТОМ</span>
+          <span className="section-index">05 / ПЕРЕД СТАРТОМ</span>
           <h2>Коротко о главном</h2>
         </div>
         <div className="faq-list">
           <details>
             <summary>Как установить сборку?</summary>
             <p>
-              Перед запуском мы добавим ссылку на готовый архив и отдельную
-              инструкцию для популярных лаунчеров.
+              Скачай mods.zip с Google Диска, распакуй его и установи файлы
+              модов в профиль Minecraft 1.21.1 с NeoForge 21.1.235.
+              <a className="faq-inline-link" href="#install">
+                Пошаговая инструкция находится выше.
+              </a>
             </p>
           </details>
           <details>
