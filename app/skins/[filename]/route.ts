@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { fetchSkinBlob } from "@/lib/server/blob";
 import { getRuntimeConfig } from "@/lib/server/config";
+import { sha256 } from "@/lib/server/crypto";
 import { HttpError } from "@/lib/server/errors";
 import { jsonError } from "@/lib/server/http";
 import { enforceRateLimit } from "@/lib/server/rate-limit";
@@ -20,6 +21,12 @@ export function etagMatches(header: string | null, hash: string): boolean {
     .split(",")
     .map((value) => value.trim().replace(/^W\//, ""))
     .some((value) => value === "*" || value === `"${hash}"`);
+}
+
+export function skinCacheControl(versioned: boolean): string {
+  return versioned
+    ? "public, max-age=31536000, immutable"
+    : "no-store";
 }
 
 export async function GET(request: NextRequest, context: Context) {
@@ -44,8 +51,16 @@ export async function GET(request: NextRequest, context: Context) {
     }
     const record = await getSkin(username);
     if (!record) throw new HttpError(404, "Skin not found");
+    const requestedVersion = request.nextUrl.searchParams.get("v");
+    if (requestedVersion && requestedVersion !== record.hash) {
+      throw new HttpError(
+        409,
+        "Skin version changed; refresh metadata",
+        { "Cache-Control": "no-store" },
+      );
+    }
     const headers = new Headers({
-      "Cache-Control": "public, max-age=600, must-revalidate",
+      "Cache-Control": skinCacheControl(requestedVersion === record.hash),
       "Content-Type": "image/png",
       "Cross-Origin-Resource-Policy": "cross-origin",
       ETag: `"${record.hash}"`,
@@ -54,6 +69,13 @@ export async function GET(request: NextRequest, context: Context) {
       return new Response(null, { status: 304, headers });
     }
     const bytes = await fetchSkinBlob(record.blobUrl);
+    if (sha256(bytes) !== record.hash) {
+      throw new HttpError(
+        503,
+        "Stored skin does not match its metadata",
+        { "Cache-Control": "no-store" },
+      );
+    }
     headers.set("Content-Length", String(bytes.length));
     return new Response(new Uint8Array(bytes), { status: 200, headers });
   } catch (error) {
