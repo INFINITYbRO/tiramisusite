@@ -1333,10 +1333,70 @@ footer > span {
   position: relative;
 }
 
-.skin-preview img {
+.minecraft-skin-stage {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  min-height: 280px;
+  position: relative;
+  width: 100%;
+}
+
+.minecraft-skin-stage::after {
+  background: radial-gradient(
+    ellipse,
+    rgba(0, 0, 0, 0.58) 0%,
+    rgba(0, 0, 0, 0) 72%
+  );
+  bottom: 9px;
+  content: "";
+  height: 24px;
+  position: absolute;
+  width: 82%;
+}
+
+.minecraft-skin-character {
+  animation: minecraft-skin-float 4s ease-in-out infinite;
+  filter: drop-shadow(0 16px 9px rgba(0, 0, 0, 0.34));
   image-rendering: pixelated;
-  object-fit: contain;
-  width: min(100%, 250px);
+  position: relative;
+  width: min(72%, 154px);
+  z-index: 1;
+}
+
+.minecraft-skin-stage.is-loading .minecraft-skin-character,
+.minecraft-skin-stage.is-error .minecraft-skin-character {
+  opacity: 0;
+}
+
+.minecraft-skin-status {
+  color: rgba(241, 234, 220, 0.48);
+  font-family: var(--display);
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+@keyframes minecraft-skin-float {
+  0%,
+  100% {
+    transform: translateY(2px);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minecraft-skin-character {
+    animation: none;
+  }
 }
 
 .skin-empty {

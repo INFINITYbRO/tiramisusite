@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { MinecraftSkinPreview } from "./MinecraftSkinPreview";
 
 type SkinModel = "default" | "slim";
 
@@ -338,9 +339,11 @@ export function AccountPortal() {
       <form className="skin-editor" onSubmit={uploadSkin}>
         <div className="skin-preview">
           {skinSource ? (
-            // The source can be an object URL or the separately deployed skin API.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img alt={`Скин ${user.username}`} src={skinSource} />
+            <MinecraftSkinPreview
+              alt={`Персонаж ${user.username} с выбранным скином`}
+              model={previewUrl ? model : (activeSkin?.model ?? model)}
+              src={skinSource}
+            />
           ) : (
             <div className="skin-empty">
               <strong>Нет скина</strong>
