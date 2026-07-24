@@ -24,18 +24,6 @@ export function noStoreJson(
   return response;
 }
 
-export function cacheablePublicJson(
-  body: unknown,
-  maxAgeSeconds = 60,
-): NextResponse {
-  const response = NextResponse.json(body);
-  response.headers.set(
-    "Cache-Control",
-    `public, max-age=0, s-maxage=${maxAgeSeconds}, stale-while-revalidate=300`,
-  );
-  return response;
-}
-
 export function requireSameOrigin(request: NextRequest): void {
   const origin = request.headers.get("origin");
   if (!origin || origin !== request.nextUrl.origin) {
