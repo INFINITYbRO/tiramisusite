@@ -2,7 +2,6 @@ import { NextRequest } from "next/server";
 import { getAdminApiKey, getRuntimeConfig } from "@/lib/server/config";
 import { HttpError } from "@/lib/server/errors";
 import {
-  cacheablePublicJson,
   jsonError,
   noStoreJson,
   requireSameOrigin,
@@ -42,7 +41,7 @@ export async function GET(request: NextRequest, context: Context) {
     }
     const record = await getSkin(username);
     if (!record) throw new HttpError(404, "Skin not found");
-    return cacheablePublicJson(skinApiResponse(record));
+    return noStoreJson(skinApiResponse(record));
   } catch (error) {
     return jsonError(error);
   }
