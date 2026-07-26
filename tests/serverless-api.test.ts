@@ -223,7 +223,7 @@ describe("Minecraft server status", () => {
 
     assert.match(
       requestedUrl,
-      /api\.mcstatus\.io\/v2\/status\/java\/185\.9\.145\.104%3A30621/,
+      /api\.mcstatus\.io\/v2\/status\/java\/playtiramisucraft\.ru/,
     );
     assert.equal(data.status, "online");
     assert.equal(data.playersOnline, 2);
